@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>BingeScape | Ultimate Binge-Watching Hub</title>
+    <!-- Google Fonts & Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0B0C10;
+            color: #F0F3F8;
+            line-height: 1.5;
+            scroll-behavior: smooth;
+        }
+
+        /* custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1F2833;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #E50914;
+            border-radius: 10px;
+        }
+
+        /* container */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 28px;
+        }
+
+        /* header / navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            flex-wrap: wrap;
+            gap: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .logo h1 {
+            font-size: 1.9rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #F9D423 0%, #E50914 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.5px;
+        }
+        .logo span {
+            font-size: 0.8rem;
+            display: block;
+            color: #9AA3B0;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+        .nav-links {
+            display: flex;
+            gap: 32px;
+        }
+        .nav-links a {
+            color: #E5E9F0;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.2s;
+            font-size: 1rem;
+        }
+        .nav-links a:hover {
+            color: #E50914;
+        }
+
+        /* hero */
+        .hero {
+            margin: 50px 0 70px 0;
+            text-align: center;
+            background: radial-gradient(circle at 10% 30%, rgba(229,9,20,0.1), transparent 70%);
+            padding: 40px 20px;
+            border-radius: 48px;
+        }
+        .hero h2 {
+            font-size: 3.2rem;
+            font-weight: 800;
+            background: linear-gradient(to right, #FFFFFF, #E50914, #F9D423);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 20px;
+            letter-spacing: -0.02em;
+        }
+        .hero p {
+            font-size: 1.2rem;
+            color: #C5CCE0;
+            max-width: 680px;
+            margin: 0 auto 32px auto;
+        }
+        .btn-primary {
+            background: linear-gradient(95deg, #E50914 0%, #FF4A2A 100%);
+            border: none;
+            padding: 14px 36px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 40px;
+            color: white;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 8px 20px rgba(229,9,20,0.3);
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 18px 28px rgba(229,9,20,0.4);
+        }
+
+        /* section titles */
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 70px;
+            height: 4px;
+            background: #E50914;
+            border-radius: 4px;
+        }
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+            margin-top: 20px;
+        }
+        .sub {
+            color: #9AA5B9;
+            font-weight: 500;
+        }
+
+        /* genre cards grid (sub-categories) */
+        .genre-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 28px;
+            margin-bottom: 70px;
+        }
+        .genre-card {
+            background: #14181F;
+            border-radius: 28px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 12px 24px -12px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .genre-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(229,9,20,0.3);
+            box-shadow: 0 25px 30px -12px rgba(229,9,20,0.2);
+        }
+        .genre-img {
+            height: 180px;
+            overflow: hidden;
+        }
+        .genre-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s;
+        }
+        .genre-card:hover .genre-img img {
+            transform: scale(1.05);
+        }
+        .genre-info {
+            padding: 22px 18px 24px;
+            text-align: center;
+        }
+        .genre-info h3 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .genre-info p {
+            color: #B0B8CC;
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+        }
+        .genre-tag {
+            display: inline-block;
+            background: rgba(229,9,20,0.2);
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #FF6B6B;
+        }
+
+        /* trending shows */
+        .shows-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 32px;
+            margin-bottom: 70px;
+        }
+        .show-card {
+            background: #0F131A;
+            border-radius: 28px;
+            overflow: hidden;
+            transition: all 0.25s;
+            border: 1px solid #232A33;
+            backdrop-filter: blur(2px);
+        }
+        .show-card:hover {
+            border-color: #E50914;
+            transform: scale(1.02);
+            box-shadow: 0 20px 35px -10px black;
+        }
+        .show-img {
+            height: 200px;
+            width: 100%;
+            overflow: hidden;
+        }
+        .show-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.3s;
+        }
+        .show-card:hover .show-img img {
+            transform: scale(1.03);
+        }
+        .show-info {
+            padding: 22px 18px 24px;
+        }
+        .show-info h4 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .show-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 12px 0;
+            font-size: 0.85rem;
+            color: #B8C7E7;
+        }
+        .rating i {
+            color: #FFC107;
+            margin-right: 4px;
+        }
+        .rating span {
+            font-weight: 600;
+            margin-left: 4px;
+            color: white;
+        }
+        .show-desc {
+            font-size: 0.85rem;
+            color: #A9B2CC;
+            margin-bottom: 18px;
+            line-height: 1.4;
+        }
+        .watch-btn {
+            background: transparent;
+            border: 1px solid #E50914;
+            color: #E50914;
+            padding: 8px 18px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 100%;
+        }
+        .watch-btn:hover {
+            background: #E50914;
+            color: white;
+        }
+
+        /* binge tips section (creative icons) */
+        .tips-section {
+            background: linear-gradient(145deg, #101318 0%, #080A0F 100%);
+            border-radius: 48px;
+            padding: 48px 32px;
+            margin: 50px 0 60px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 35px;
+            margin-top: 32px;
+        }
+        .tip-item {
+            text-align: center;
+            padding: 12px;
+        }
+        .tip-icon {
+            font-size: 2.8rem;
+            background: rgba(229,9,20,0.2);
+            width: 85px;
+            height: 85px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 60px;
+            margin: 0 auto 20px;
+            color: #E50914;
+            transition: 0.2s;
+        }
+        .tip-item h4 {
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+        }
+        .tip-item p {
+            color: #B4BFD9;
+            font-size: 0.9rem;
+        }
+
+        /* weekly feature / extra callout */
+        .feature-banner {
+            background: linear-gradient(112deg, #1F1A24 0%, #0D0E16 100%);
+            border-radius: 36px;
+            padding: 40px 36px;
+            margin: 50px 0;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 30px;
+            border-left: 6px solid #E50914;
+        }
+        .feature-text h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        .feature-text p {
+            margin-top: 8px;
+            color: #CACFE5;
+        }
+        .feature-img img {
+            width: 140px;
+            border-radius: 24px;
+            box-shadow: 0 15px 20px rgba(0,0,0,0.4);
+        }
+
+        /* footer */
+        footer {
+            background: #06080C;
+            margin-top: 60px;
+            padding: 44px 0 32px;
+            border-top: 1px solid #1F2937;
+        }
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 30px;
+            align-items: center;
+        }
+        .footer-logo h3 {
+            font-size: 1.7rem;
+            background: linear-gradient(135deg, #F9D423, #E50914);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .social-icons a {
+            color: #B7C0D0;
+            font-size: 1.5rem;
+            margin-left: 20px;
+            transition: 0.2s;
+        }
+        .social-icons a:hover {
+            color: #E50914;
+        }
+        .copyright {
+            text-align: center;
+            margin-top: 36px;
+            font-size: 0.8rem;
+            color: #6C7A91;
+        }
+
+        @media (max-width: 760px) {
+            .hero h2 {
+                font-size: 2.2rem;
+            }
+            .navbar {
+                flex-direction: column;
+                text-align: center;
+            }
+            .section-title {
+                font-size: 1.8rem;
+            }
+            .feature-banner {
+                flex-direction: column;
+                text-align: center;
+            }
+            .tips-section {
+                padding: 32px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="container">
+        <div class="navbar">
+            <div class="logo">
+                <h1>BingeScape</h1>
+                <span>unlimited · stories · escape</span>
+            </div>
+            <div class="nav-links">
+                <a href="#">Home</a>
+                <a href="#">Genres</a>
+                <a href="#">Trending</a>
+                <a href="#">Watchlist</a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main>
+    <div class="container">
+        <!-- Hero section -->
+        <div class="hero">
+            <h2>Your next obsession starts now</h2>
+            <p>Discover handpicked series, hidden gems, and the ultimate binge-watching experience. Marathon-ready content, zero guilt.</p>
+            <button class="btn-primary" id="exploreBtn"><i class="fas fa-play-circle"></i> Start Binge Journey</button>
+        </div>
+
+        <!-- SUBCATEGORIES SECTION : Binge by Genre -->
+        <div class="section-header">
+            <div>
+                <h2 class="section-title">Binge by Genre</h2>
+                <p class="sub">Find your perfect mood · sub-categories that hit different</p>
+            </div>
+        </div>
+        <div class="genre-grid">
+            <!-- Action Card -->
+            <div class="genre-card">
+                <div class="genre-img">
+                    <img src="https://images.unsplash.com/photo-1509347528160-9a9e33742cdb?w=500&auto=format" alt="Action genre explosive scene">
+                </div>
+                <div class="genre-info">
+                    <h3>Action</h3>
+                    <p>High-octane thrillers & explosive sequences</p>
+                    <span class="genre-tag">148 shows</span>
+                </div>
+            </div>
+            <!-- Comedy Card -->
+            <div class="genre-card">
+                <div class="genre-img">
+                    <img src="https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?w=500&auto=format" alt="Comedy genre laughing crowd">
+                </div>
+                <div class="genre-info">
+                    <h3>Comedy</h3>
+                    <p>Laugh-out-loud moments & sitcoms</p>
+                    <span class="genre-tag">97 shows</span>
+                </div>
+            </div>
+            <!-- Drama Card -->
+            <div class="genre-card">
+                <div class="genre-img">
+                    <img src="https://images.unsplash.com/photo-1535223289827-42f1e9919769?w=500&auto=format" alt="Drama emotional theatre">
+                </div>
+                <div class="genre-info">
+                    <h3>Drama</h3>
+                    <p>Emotional depth & character-driven arcs</p>
+                    <span class="genre-tag">201 shows</span>
+                </div>
+            </div>
+            <!-- Sci-Fi Card -->
+            <div class="genre-card">
+                <div class="genre-img">
+                    <img src="https://images.unsplash.com/photo-1454789548928-9efd52dc4031?w=500&auto=format" alt="Sci-Fi galaxy space">
+                </div>
+                <div class="genre-info">
+                    <h3>Sci-Fi</h3>
+                    <p>Mind-bending worlds & futuristic odysseys</p>
+                    <span class="genre-tag">112 shows</span>
+                </div>
+            </div>
+            <!-- Thriller Card -->
+            <div class="genre-card">
+                <div class="genre-img">
+                    <img src="https://images.unsplash.com/photo-1446329813274-7c9036bd9a1f?w=500&auto=format" alt="Thriller suspenseful forest">
+                </div>
+                <div class="genre-info">
+                    <h3>Thriller</h3>
+                    <p>Suspense, twists & psychological tension</p>
+                    <span class="genre-tag">84 shows</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- TRENDING BINGE-WORTHY SERIES Section -->
+        <div class="section-header">
+            <div>
+                <h2 class="section-title">Trending Binges 🔥</h2>
+                <p class="sub">What the world is watching right now</p>
+            </div>
+        </div>
+        <div class="shows-grid">
+            <!-- Show 1 -->
+            <div class="show-card">
+                <div class="show-img">
+                    <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=500&auto=format" alt="Echoes of the past dramatic scene">
+                </div>
+                <div class="show-info">
+                    <h4>Echoes of the Past</h4>
+                    <div class="show-meta">
+                        <span><i class="far fa-clock"></i> 3 seasons</span>
+                        <div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><span>4.7</span></div>
+                    </div>
+                    <p class="show-desc">A time-bending mystery where forgotten memories rewrite reality.</p>
+                    <button class="watch-btn watch-action">Binge now <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+            <!-- Show 2 -->
+            <div class="show-card">
+                <div class="show-img">
+                    <img src="https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=500&auto=format" alt="Cosmic Frontier galaxy">
+                </div>
+                <div class="show-info">
+                    <h4>Cosmic Frontier</h4>
+                    <div class="show-meta">
+                        <span><i class="far fa-clock"></i> 2 seasons</span>
+                        <div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><span>4.9</span></div>
+                    </div>
+                    <p class="show-desc">Interstellar explorers uncover an ancient secret that threatens the galaxy.</p>
+                    <button class="watch-btn watch-action">Binge now <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+            <!-- Show 3 -->
+            <div class="show-card">
+                <div class="show-img">
+                    <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=500&auto=format" alt="Laugh Factory comedy stage">
+                </div>
+                <div class="show-info">
+                    <h4>Laugh Factory</h4>
+                    <div class="show-meta">
+                        <span><i class="far fa-clock"></i> 5 seasons</span>
+                        <div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><span>4.2</span></div>
+                    </div>
+                    <p class="show-desc">Improv chaos & hilarious ensemble cast. Perfect weekend marathon.</p>
+                    <button class="watch-btn watch-action">Binge now <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+            <!-- Show 4 -->
+            <div class="show-card">
+                <div class="show-img">
+                    <img src="https://images.unsplash.com/photo-1509248961158-e54f6934749c?w=500&auto=format" alt="Mind Games psychological thriller">
+                </div>
+                <div class="show-info">
+                    <h4>Mind Games</h4>
+                    <div class="show-meta">
+                        <span><i class="far fa-clock"></i> 1 season</span>
+                        <div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><span>4.8</span></div>
+                    </div>
+                    <p class="show-desc">A criminal profiler gets trapped in a killer's twisted puzzle.</p>
+                    <button class="watch-btn watch-action">Binge now <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Binge-Watching Tips Section (interactive & useful) -->
+        <div class="tips-section">
+            <div style="text-align: center;">
+                <h2 class="section-title" style="font-size:1.9rem;">Pro Binge-Tips</h2>
+                <p class="sub">Master the art of marathon watching with style</p>
+            </div>
+            <div class="tips-grid">
+                <div class="tip-item">
+                    <div class="tip-icon"><i class="fas fa-couch"></i></div>
+                    <h4>Comfy Zone</h4>
+                    <p>Perfect lighting, blankets & zero distractions = peak immersion.</p>
+                </div>
+                <div class="tip-item">
+                    <div class="tip-icon"><i class="fas fa-popcorn"></i></div>
+                    <h4>Snack Strategy</h4>
+                    <p>Prepare healthy & crunchy snacks to keep energy levels high.</p>
+                </div>
+                <div class="tip-item">
+                    <div class="tip-icon"><i class="fas fa-list-check"></i></div>
+                    <h4>Episode Tracker</h4>
+                    <p>Set reminders & use playlist mode to avoid cliffhanger anxiety.</p>
+                </div>
+                <div class="tip-item">
+                    <div class="tip-icon"><i class="fas fa-moon"></i></div>
+                    <h4>Blue Light Shift</h4>
+                    <p>Adjust screen warmth for night binges — protect your eyes!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Extra section: Weekly must-watch recommendation with image -->
+        <div class="feature-banner">
+            <div class="feature-text">
+                <h3><i class="fas fa-tv"></i> Editor's Pick: "Midnight Signal"</h3>
+                <p>⭐ 9.2 IMDB · Mystery/Thriller · 8 episodes</p>
+                <p>“A hypnotic slow-burn thriller that will make you watch until 3 AM.” — critics consensus. <br> Add to your weekend binge list now.</p>
+                <button class="btn-primary" style="margin-top: 14px; padding: 8px 24px; font-size: 0.9rem;">Add to Watchlist <i class="fas fa-plus-circle"></i></button>
+            </div>
+            <div class="feature-img">
+                <img src="https://images.unsplash.com/photo-1485846234645-a62644f84728?w=300&auto=format" alt="Midnight Signal poster aesthetic">
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Footer Section -->
+<footer>
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <h3>BingeScape</h3>
+                <p style="font-size: 0.8rem; color:#8A99B4;">endless stories, one night at a time</p>
+            </div>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-tiktok"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>© 2025 BingeScape — curated for true binge-watchers. All images used for demonstration.</p>
+        </div>
+    </div>
+</footer>
+
+<!-- simple JS for demonstration & interactive alerts -->
+<script>
+    // Attach watch buttons and hero click with a little binge flair
+    const watchButtons = document.querySelectorAll('.watch-action');
+    watchButtons.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            alert("🎬 Ready to dive in? Get your snacks ready! (Demo mode — streaming service coming soon)");
+        });
+    });
+    document.getElementById('exploreBtn').addEventListener('click', () => {
+        alert("✨ Welcome to BingeScape! Scroll to discover genres, trending shows & expert tips. Happy watching!");
+    });
+    // Also attach genre card click for more immersive feeling
+    const genreCards = document.querySelectorAll('.genre-card');
+    genreCards.forEach(card => {
+        card.addEventListener('click', () => {
+            alert("🔍 Explore this genre — hundreds of binge-worthy titles awaiting.");
+        });
+    });
+    // feature banner button
+    const addBtn = document.querySelector('.feature-banner .btn-primary');
+    if(addBtn) {
+        addBtn.addEventListener('click', () => {
+            alert("📺 'Midnight Signal' added to your watchlist! Prepare for an intense ride.");
+        });
+    }
+</script>
+
+</body>
+</html>
